@@ -5,7 +5,7 @@ All notable changes to `project-init` will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 versioning follows [Semantic Versioning](https://semver.org/).
 
-## [2.1.0] — 2026-01
+## [2.1.0] — 2026-05-19
 
 ### Added — NEW_PROJECT mode
 
@@ -40,7 +40,7 @@ versioning follows [Semantic Versioning](https://semver.org/).
 - Resolver registry expanded from 19 to **24 entries** (added a11y, frontend-design, database-reviewer, healthcare-reviewer, pr-test-analyzer)
 - Validation checklist expanded from 8 to **16 checks**
 
-## [2.0.0] — 2026-01
+## [2.0.0] — 2026-05-19
 
 ### Added
 
