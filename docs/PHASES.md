@@ -16,35 +16,40 @@ User invokes /project-init "<idea>"
        │
        ▼
 ┌──────────────────────────────────────────────────────────┐
-│ MODE_NEW_PROJECT (11 phases)                             │
-│   Phase 0  → Idea capture            (instant)           │
-│   Phase 1  → Classification          (auto)              │
-│   Phase 2  → Prior-art research      (auto)              │
-│   Phase 3  → PRD interview           (interactive)       │
-│   Phase 4  → Tech stack proposal     (semi-auto)         │
-│   Phase 5  → Component decomposition (auto)              │
-│   Phase 6  → Architecture + Security (auto, parallel)    │
-│   Phase 7  → Roadmap                  (auto)             │
-│   Phase 8  → Repo + scaffold         (semi-auto)         │
-│   Phase 9  → Vault hub               (auto)              │
-│   Phase 10 → Sprint 1 tasks          (auto)              │
-│   Phase 11 → Validation + self-heal  (auto)              │
+│ MODE_NEW_PROJECT (14 phases, v2.1)                       │
+│   Phase 0    → Idea capture              (instant)       │
+│   Phase 0.5  → Pre-PRD setup (validation │ budget │ team)│
+│                                          (interactive)   │
+│   Phase 1    → Classification            (auto)          │
+│   Phase 2    → Prior-art research        (auto)          │
+│   Phase 2.5  → Domain & name validation  (auto)          │
+│   Phase 3    → PRD interview             (interactive)   │
+│   Phase 4    → Tech stack proposal       (semi-auto)     │
+│   Phase 5    → Component decomposition   (auto)          │
+│   Phase 6    → Architecture + Security   (auto, parallel)│
+│   Phase 7    → Roadmap                   (auto)          │
+│   Phase 7.5  → Cost estimation           (auto)          │
+│   Phase 8    → Repo + scaffold (8a-8m)   (semi-auto)     │
+│   Phase 9    → Vault hub                 (auto)          │
+│   Phase 10   → Sprint 1 tasks            (auto)          │
+│   Phase 11   → Validation + self-heal    (auto)          │
 └──────────────────────────────────────────────────────────┘
 
        OR
 
 ┌──────────────────────────────────────────────────────────┐
-│ MODE_NEW_FEATURE (9 phases)                              │
-│   Phase F0 → Feature capture          (instant)          │
-│   Phase F1 → Classification           (auto)             │
-│   Phase F2 → Library / repo research  (auto)             │
-│   Phase F3 → Requirements interview   (interactive)      │
-│   Phase F4 → Component impact         (auto)             │
-│   Phase F5 → Design proposal          (auto)             │
-│   Phase F6 → Security review          (auto, conditional)│
-│   Phase F7 → Task breakdown           (auto)             │
-│   Phase F8 → Feature spec write       (auto)             │
-│   Phase F9 → Validation + self-heal   (auto)             │
+│ MODE_NEW_FEATURE (10 phases, v2.1)                       │
+│   Phase F0   → Feature capture          (instant)        │
+│   Phase F1   → Classification           (auto)           │
+│   Phase F2   → Library / repo research  (auto)           │
+│   Phase F2.5 → Cost impact              (auto)           │
+│   Phase F3   → Requirements interview   (interactive)    │
+│   Phase F4   → Component impact         (auto)           │
+│   Phase F5   → Design proposal          (auto)           │
+│   Phase F6   → Security review          (auto, cond.)    │
+│   Phase F7   → Task breakdown           (auto)           │
+│   Phase F8   → Feature spec write       (auto)           │
+│   Phase F9   → Validation + self-heal   (auto)           │
 └──────────────────────────────────────────────────────────┘
        │
        ▼
@@ -226,7 +231,7 @@ git checkout -b develop && git push -u origin develop
 
 Each failed check loops up to 3 times. After exhausting retries, the agent surfaces a structured failure report to the user with the preserved state file path so the user can fix manually and resume.
 
-### Resolver registry (Phase 11 + F9)
+### Resolver registry (Phase 11 + F9, 24 entries)
 
 Issue → resolver mapping. The agent inspects the failure type and invokes the appropriate sub-agent with a focused context bundle (error msg + file path + phase + relevant prior output).
 
@@ -250,6 +255,12 @@ Issue → resolver mapping. The agent inspects the failure type and invokes the 
 | E2E test failure | `everything-claude-code:e2e-runner` |
 | Comment rot | `everything-claude-code:comment-analyzer` |
 | Type design issue | `everything-claude-code:type-design-analyzer` |
+| **Accessibility / WCAG (v2.1)** | `everything-claude-code:a11y-architect` |
+| **Frontend design / design system (v2.1)** | `frontend-design:frontend-design` |
+| **Database design / schema review (v2.1)** | `everything-claude-code:database-reviewer` |
+| **API design quality (v2.1)** | `Skill(everything-claude-code:api-design)` |
+| **Healthcare PHI / HIPAA (v2.1)** | `everything-claude-code:healthcare-reviewer` |
+| **PR test coverage analysis (v2.1)** | `everything-claude-code:pr-test-analyzer` |
 
 ## Constraints applied
 

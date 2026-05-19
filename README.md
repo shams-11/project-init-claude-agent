@@ -9,31 +9,36 @@
 
 `project-init` is a [Claude Code](https://docs.anthropic.com/claude/docs/claude-code) sub-agent that operates in two modes:
 
-### MODE_NEW_PROJECT (11 phases)
+### MODE_NEW_PROJECT (14 phases)
 
 ```
-Idea → Classification → Prior-art research → PRD interview →
-Tech stack proposal → Component decomposition → Architecture + Security (parallel) →
-Roadmap → GitHub repo + scaffold → Vault hub → Sprint-1 tasks → Validation + self-healing
+Idea → Pre-PRD setup (validation + budget + team) → Classification → Prior-art research →
+Domain & name validation → PRD interview → Tech stack proposal → Component decomposition →
+Architecture + Security (parallel) → Roadmap → Cost estimation → Repo + scaffold (enhanced) →
+Vault hub → Sprint-1 tasks → Validation + self-healing
 ```
 
-### MODE_NEW_FEATURE (9 phases)
+### MODE_NEW_FEATURE (10 phases)
 
 ```
-Feature capture → Classification → Library/repo research → Requirements interview →
-Component impact → Design proposal → Security review → Task breakdown →
-Spec write → Validation + self-healing
+Feature capture → Classification → Library/repo research → Cost impact →
+Requirements interview → Component impact → Design proposal → Security review →
+Task breakdown → Spec write → Validation + self-healing
 ```
 
 ## Why use it?
 
-- **One command** replaces 5+ separate workflow steps
+- **One command** replaces 8+ separate workflow steps
 - **Phase 2 prior-art search** prevents wasted effort on solved problems
+- **Phase 2.5 domain & name validation** catches naming conflicts (npm/PyPI/GitHub) early
 - **Phase 5 component decomposition** auto-breaks projects into backend/frontend/db/infra compartments
-- **Phase 11 self-healing** routes failures to 19 specialized resolver agents (build errors, security gaps, dead code, etc.)
+- **Phase 7.5 cost estimation** projects monthly + annual cost from tech stack vs budget tier
+- **Phase 8 enhanced scaffold** writes language-appropriate CI, Dependabot, CodeQL, pre-commit hooks, issue templates, branch protection, license, multi-env configs, badges
+- **Phase 11 self-healing** routes failures to 24 specialized resolver agents (build errors, security gaps, dead code, accessibility, database design, healthcare compliance, etc.)
 - **State persistence** across crashes — resume from any phase
 - **Locale-aware** — detects user's language, outputs in their language while keeping ADRs international (English)
 - **Vault-integrated** (optional) — auto-creates Obsidian project hub for long-term memory
+- **Configurable budget tier** — proposals biased toward hobby / startup / enterprise tier
 
 ## Prerequisites
 
@@ -137,6 +142,7 @@ Resume? (y/n/start fresh)
 | `PROJECTS_ROOT` | `~/projects` or `%USERPROFILE%\projects` | Where to clone created repos locally |
 | `PROJECT_INIT_VISIBILITY` | `private` | Default GitHub repo visibility |
 | `PROJECT_INIT_VAULT_STRUCTURE` | `PARA` | Vault folder convention |
+| `PROJECT_INIT_BUDGET_TIER` | `startup` | Budget target (`hobby` / `startup` / `enterprise`) — biases tech stack proposal + cost estimate |
 
 ## Sub-agent dependencies
 
@@ -149,11 +155,13 @@ The agent delegates specialized work to these ECC sub-agents (must be installed 
 | 6 (architecture) | `everything-claude-code:code-architect` |
 | 6 (security) | `everything-claude-code:security-reviewer` |
 | 7, 10, F7 (planning) | `everything-claude-code:planner` |
-| 11 / F9 (validation resolvers) | 19 resolvers — see [docs/PHASES.md](docs/PHASES.md) |
+| 11 / F9 (validation resolvers) | 24 resolvers — see [docs/PHASES.md](docs/PHASES.md) |
 
 ## Architecture & detailed pipeline
 
-See [docs/PHASES.md](docs/PHASES.md) for the full per-phase flow with sub-agent prompts, state schema, validation checklist, and resolver registry.
+- [docs/PHASES.md](docs/PHASES.md) — full per-phase flow with sub-agent prompts, state schema, validation checklist, and resolver registry
+- [docs/SCAFFOLD_CHECKLIST.md](docs/SCAFFOLD_CHECKLIST.md) — copy-ready templates for every scaffold artifact (CI workflows per language, pre-commit configs, issue templates, Dependabot YAML, CodeQL workflow, CODEOWNERS, branch protection commands, README badges, license notices, multi-env configs)
+- [CHANGELOG.md](CHANGELOG.md) — version history
 
 ## Customization
 
