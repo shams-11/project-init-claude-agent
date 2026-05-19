@@ -5,6 +5,45 @@ All notable changes to `project-init` will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 versioning follows [Semantic Versioning](https://semver.org/).
 
+## [2.2.0] — 2026-05-20
+
+### Added — Two new modes
+
+- **MODE_CROSS_REPO_AUDIT** (7 phases R0-R6): scans all of the user's repos from GitHub + local `$PROJECTS_ROOT` + Obsidian vault, detects functional overlap and duplication, and proposes organization (shared library extraction, monorepo consolidation, cross-repo refactor PR plan, dependency alignment, external dependency monitoring with risk flags). Optional Phase R7 executes approved actions as PRs with strict per-item approval.
+- **MODE_CROSS_AGENT_AUDIT** (7 phases A0-A6): scans all installed AI sub-agents (user-level `~/.claude/agents/`, plugin-provided, project-local), builds a delegate topology, and surfaces functional overlap, orphan agents, naming inconsistencies, tool over-scoping, broken references, and consolidation opportunities. Optional Phase A7 archives (never hard-deletes) approved consolidations with strict per-item approval. Plugin-provided agents are always read-only.
+
+### Added — Phases
+
+#### MODE_CROSS_REPO_AUDIT (R0-R6)
+- **R0** Repo discovery (GitHub `gh repo list` + local `$PROJECTS_ROOT` scan + vault `01_Projects/` glob)
+- **R1** Repo profiling (parallel) — language, structure, dependencies, open issues/PRs, topics
+- **R2** Similarity matrix — pairwise scoring on shared deps + topics + naming + tech stack + folder structure
+- **R3** Duplication detection — filename matches + distinctive function search + shared utility patterns
+- **R4** Organization recommendations — shared library extraction, monorepo consolidation, dependency alignment, cross-repo refactor PR plan, topic/metadata alignment
+- **R5** External dependencies map — top 20 most-used + maintenance signal + risk flags + engagement suggestions
+- **R6** Action plan + audit report + TaskCreate (+ optional R7 execute with approval)
+
+#### MODE_CROSS_AGENT_AUDIT (A0-A6)
+- **A0** Agent discovery (user + plugin + project + vault sources)
+- **A1** Agent profiling — name, description, tools, model, domain inference, delegate edges, system prompt length
+- **A2** Similarity matrix — description overlap + tool overlap + domain overlap + name similarity
+- **A3** Duplication detection — system prompt comparison + responsibility overlap detection + naming inconsistency flags
+- **A4** Cross-agent communication map — delegate topology + hub agents + orphan agents + circular delegations + broken references
+- **A5** Organization recommendations — consolidate, hierarchy clarification, naming standardization, tool scope reduction, broken reference fixes, promote/demote, cross-plugin overlap resolution
+- **A6** Action plan + audit report + TaskCreate (+ optional A7 archive-based execute with approval)
+
+### Changed
+
+- Frontmatter description updated to reflect 4 modes
+- Mode detection table extended with audit mode triggers (English + Turkish keywords + `--audit-repos` / `--audit-agents` flags)
+- Total pipeline now covers 14 + 10 + 7 + 7 = **38 distinct phases** across 4 modes
+
+### Safety
+
+- Cross-repo audit Phase R7 (execute): NEVER pushes to main directly; opens PRs with audit-report context
+- Cross-agent audit Phase A7 (execute): archive-then-restore over hard delete; plugin agents never mutated
+- Both require explicit per-item user approval
+
 ## [2.1.0] — 2026-05-19
 
 ### Added — NEW_PROJECT mode

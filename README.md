@@ -26,6 +26,22 @@ Requirements interview → Component impact → Design proposal → Security rev
 Task breakdown → Spec write → Validation + self-healing
 ```
 
+### MODE_CROSS_REPO_AUDIT (7 phases — new in v2.2)
+
+```
+Repo discovery (GitHub + local + vault) → Profiling (parallel) → Similarity matrix →
+Duplication detection → Organization recommendations → External dependency map →
+Action plan + audit report + optional execute (PRs with per-item approval)
+```
+
+### MODE_CROSS_AGENT_AUDIT (7 phases — new in v2.2)
+
+```
+Agent discovery (user + plugin + project + vault) → Profiling → Similarity matrix →
+Duplication detection → Cross-agent communication map → Organization recommendations →
+Action plan + audit report + optional archive-based execute
+```
+
 ## Why use it?
 
 - **One command** replaces 8+ separate workflow steps
@@ -39,6 +55,8 @@ Task breakdown → Spec write → Validation + self-healing
 - **Locale-aware** — detects user's language, outputs in their language while keeping ADRs international (English)
 - **Vault-integrated** (optional) — auto-creates Obsidian project hub for long-term memory
 - **Configurable budget tier** — proposals biased toward hobby / startup / enterprise tier
+- **Cross-repo audit (v2.2)** — scan all your repos, detect duplication, propose shared libraries / consolidation / dependency alignment
+- **Cross-agent audit (v2.2)** — scan your AI sub-agents, detect overlap and orphans, propose consolidation and naming standardization
 
 ## Prerequisites
 
@@ -104,6 +122,33 @@ The agent will:
 8. (Optional) Create an Obsidian vault hub
 9. Open Sprint-1 tasks in the task list
 10. Validate everything and auto-fix issues via resolver agents
+
+### Audit all your repos for duplication
+
+```
+claude
+> /project-init --audit-repos
+```
+
+The agent will:
+1. Discover all your repos (GitHub + local + vault)
+2. Profile each (language, structure, dependencies, activity)
+3. Compute similarity matrix and detect duplication clusters
+4. Map external dependencies and flag risks
+5. Produce an audit report with prioritized recommendations: shared library extraction, monorepo consolidation, dependency alignment, cross-repo refactor PR plan
+
+### Audit your AI sub-agents
+
+```
+claude
+> /project-init --audit-agents
+```
+
+The agent will:
+1. Discover all installed sub-agents (user, plugin, project)
+2. Profile and score similarity (description, tools, domain)
+3. Build a delegate topology (hub agents, orphans, circular delegations, broken references)
+4. Produce an audit report with recommendations: consolidate duplicates, clarify hierarchies, standardize naming, reduce tool over-scope, archive orphans
 
 ### Add a feature to an existing project
 

@@ -51,6 +51,34 @@ User invokes /project-init "<idea>"
 │   Phase F8   → Feature spec write       (auto)           │
 │   Phase F9   → Validation + self-heal   (auto)           │
 └──────────────────────────────────────────────────────────┘
+
+       OR
+
+┌──────────────────────────────────────────────────────────┐
+│ MODE_CROSS_REPO_AUDIT (7 phases, v2.2)                   │
+│   Phase R0   → Repo discovery (GH + local + vault)       │
+│   Phase R1   → Repo profiling           (auto, parallel) │
+│   Phase R2   → Similarity matrix        (auto)           │
+│   Phase R3   → Duplication detection    (auto)           │
+│   Phase R4   → Organization recos       (auto)           │
+│   Phase R5   → External deps map        (auto)           │
+│   Phase R6   → Action plan + report     (semi-auto)      │
+│   Phase R7   → Execute as PRs (optional, strict approval)│
+└──────────────────────────────────────────────────────────┘
+
+       OR
+
+┌──────────────────────────────────────────────────────────┐
+│ MODE_CROSS_AGENT_AUDIT (7 phases, v2.2)                  │
+│   Phase A0   → Agent discovery (user+plugin+project)     │
+│   Phase A1   → Agent profiling          (auto, parallel) │
+│   Phase A2   → Similarity matrix        (auto)           │
+│   Phase A3   → Duplication detection    (auto)           │
+│   Phase A4   → Comm map (topology)      (auto)           │
+│   Phase A5   → Organization recos       (auto)           │
+│   Phase A6   → Action plan + report     (semi-auto)      │
+│   Phase A7   → Archive-based execute (optional, strict)  │
+└──────────────────────────────────────────────────────────┘
        │
        ▼
 End-of-run summary, surfaced to user
