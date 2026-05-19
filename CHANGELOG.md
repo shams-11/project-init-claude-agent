@@ -5,6 +5,45 @@ All notable changes to `project-init` will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 versioning follows [Semantic Versioning](https://semver.org/).
 
+## [2.4.0] — 2026-05-20
+
+### Added — 4 new modes
+
+- **MODE_PROJECT_HEALTH_CHECK (H0-H6)**: periodic audit across all your projects — CI status, dep drift, security advisories, issue/PR backlog, branch hygiene, license/protection presence. Per-repo health score (0-100) with 4 tiers (healthy/needs-attention/at-risk/critical). Drift detection vs previous runs. Suitable for `--watch` scheduling.
+- **MODE_OPENSOURCE_PUBLISH (O0-O6)**: migrate a private repo to public open-source. PII/secret audit (hard gate on HIGH severity), license finalization wizard, README polish with badges + quick start, community files (CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, issue templates, FUNDING), examples/docs generation, first public release v0.1.0.
+- **MODE_MIGRATION_PLAN (M0-M6)**: plan a tech stack migration for an existing project. Current state assessment, target stack feasibility, 3 strategy options (big-bang / strangler / module-by-module), module sequencing with critical path, ADRs + risk register, migration roadmap.
+- **MODE_PROJECT_HANDOFF (T0-T6)**: prepare a project for handoff to a new owner / developer / team. Knowledge map (tribal-knowledge concentrations), onboarding doc, access transfer checklist (never auto-executed), first-week onboarding plan, handoff risk register.
+
+### Added — 4 cross-cutting flags
+
+- **`--dry-run`**: simulate full flow, no mutations performed (no `gh repo create`, no `git push`, no file writes outside `~/.claude/state/`). Surfaces "would write X, would run Y" preview.
+- **`--watch`**: generate OS-level scheduler entry (cron / launchd / Task Scheduler) for recurring runs. Run history + diff vs previous run. Best with `MODE_PROJECT_HEALTH_CHECK` and `MODE_CROSS_*_AUDIT`.
+- **`--multi-session`**: dispatch parallel-safe micro tasks across multiple Claude sessions via dmux or claude-devfleet. Enables ~3-5× wall-clock speedup on parallel work.
+- **`--notify=<webhook-url>`**: POST phase-complete events to webhook(s) (Slack-compatible JSON, also works with Discord). Comma-separated for multiple URLs.
+
+### Added — examples/
+
+5 new sample walkthroughs:
+- `examples/new-project-mobile.md` — full MODE_NEW_PROJECT run for a healthtech mobile app
+- `examples/new-feature-ocr.md` — MODE_NEW_FEATURE adding OCR with library research
+- `examples/audit-repos.md` — MODE_CROSS_REPO_AUDIT with duplication clusters and recommendations
+- `examples/health-check.md` — MODE_PROJECT_HEALTH_CHECK with scoring and drift detection
+- `examples/README.md` — examples hub with contribution guide
+
+### Changed
+
+- Frontmatter description updated to reflect 8 modes
+- Mode detection table extended with 4 new mode triggers
+- Total pipeline now covers 14 + 10 + 7 + 7 + 7 + 7 + 7 + 7 = **66 distinct phases** across 8 modes
+- Phase 10 includes multi-session dispatch sub-step (optional under `--multi-session`)
+
+### Safety
+
+- All execute phases (R7, A7, plus new modes' execute steps) require per-item user approval
+- `--dry-run` available for all modes — preview before commitment
+- PII / secret audit (Phase O1) hard-gates publication
+- Access transfer checklist (Phase T3) never auto-executes (humans-only)
+
 ## [2.3.0] — 2026-05-20
 
 ### Added — Micronized task breakdown (cross-cutting)

@@ -42,6 +42,37 @@ Duplication detection → Cross-agent communication map → Organization recomme
 Action plan + audit report + optional archive-based execute
 ```
 
+### MODE_PROJECT_HEALTH_CHECK (7 phases — new in v2.4)
+
+```
+Project inventory → Per-repo health scan (parallel) → Dependency drift (parallel) →
+Health scoring (0-100 per repo, 4 tiers) → Drift vs previous run → Recommendations →
+Report + dashboard + TaskCreate (best with --watch)
+```
+
+### MODE_OPENSOURCE_PUBLISH (7 phases — new in v2.4)
+
+```
+Target detection → PII / secret audit (hard gate) → License finalization wizard →
+README polish + badges → Community files → Examples + docs →
+Public flip + first release v0.1.0
+```
+
+### MODE_MIGRATION_PLAN (7 phases — new in v2.4)
+
+```
+Migration scope → Current state assessment → Target stack feasibility →
+Strategy options (big-bang / strangler / module-by-module) → Module sequencing + critical path →
+ADRs + risk register → Roadmap + TaskCreate
+```
+
+### MODE_PROJECT_HANDOFF (7 phases — new in v2.4)
+
+```
+Handoff context → Knowledge map → Onboarding doc → Access transfer checklist →
+First-week plan → Risk register → Handoff packet
+```
+
 ## Why use it?
 
 - **One command** replaces 8+ separate workflow steps
@@ -58,6 +89,9 @@ Action plan + audit report + optional archive-based execute
 - **Cross-repo audit (v2.2)** — scan all your repos, detect duplication, propose shared libraries / consolidation / dependency alignment
 - **Cross-agent audit (v2.2)** — scan your AI sub-agents, detect overlap and orphans, propose consolidation and naming standardization
 - **Micronized task breakdown (v2.3)** — 2-tier task hierarchy (macro 2-8h + micro 15-45min) with acceptance criteria, dependency graph, and parallel-safety markers for every task-generating phase
+- **4 new modes (v2.4)** — `MODE_PROJECT_HEALTH_CHECK` (periodic audit + scoring), `MODE_OPENSOURCE_PUBLISH` (private → public with PII strip + license + community files), `MODE_MIGRATION_PLAN` (tech stack migration with 3 strategies), `MODE_PROJECT_HANDOFF` (knowledge map + onboarding + access transfer checklist)
+- **4 cross-cutting flags (v2.4)** — `--dry-run` (preview, no mutations), `--watch` (cron/launchd/Task Scheduler entry), `--multi-session` (parallel dispatch across Claude sessions), `--notify=<webhook>` (Slack/Discord phase-complete notifications)
+- **examples/** — 5 sample walkthroughs covering NEW_PROJECT, NEW_FEATURE, CROSS_REPO_AUDIT, PROJECT_HEALTH_CHECK
 
 ## Prerequisites
 
