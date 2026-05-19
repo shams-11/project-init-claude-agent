@@ -5,6 +5,41 @@ All notable changes to `project-init` will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 versioning follows [Semantic Versioning](https://semver.org/).
 
+## [2.3.0] — 2026-05-20
+
+### Added — Micronized task breakdown (cross-cutting)
+
+All task-generating phases (Phase 10 Sprint 1, Phase F7 Feature tasks, Phase R6 Repo audit recommendations, Phase A6 Agent audit recommendations) now produce a **2-tier task hierarchy** instead of a flat list:
+
+- **Tier 1 — Macro tasks** (2-8 hours, outcome-oriented): 3-15 per phase
+- **Tier 2 — Micro tasks** (15-45 minutes, atomic): 2-8 per macro, with:
+  - Verb + specific output title (e.g., "Define User SQLAlchemy model with email/password_hash/created_at")
+  - 1-line testable acceptance criterion
+  - Sequential / parallel marker
+  - Dependency list (`blocked-by: #<ids>`)
+
+### Added — Dependency graph surface
+
+After task creation, the agent surfaces a tree visualization marking parallel-safe siblings and sequential chains. Operators can identify the critical path and parallelize Sprint 1 across siblings.
+
+### Added — Effort consistency check
+
+Macro effort estimate must equal sum of constituent micros (within 30% tolerance). Mismatch → automatic re-decomposition.
+
+### Changed
+
+- Phase 10, F7, R6, A6 sub-agent (planner) prompts updated to request 2-tier output
+- `TaskCreate` descriptions now include `Parent: #<id>`, `Blocked-by: #<list>`, `Parallel-safe: yes|no`
+- Sprint kickoff doc (`sprints/01-kickoff.md`) renders the full 2-tier tree
+
+### Rationale
+
+Operators reported difficulty parallelizing Sprint 1 work with flat hour-long tasks. Micro-task granularity enables:
+- Fine-grained progress tracking
+- Parallel execution across team members or claude sessions
+- Easier context-switching during async work
+- More accurate effort estimation via composition
+
 ## [2.2.0] — 2026-05-20
 
 ### Added — Two new modes

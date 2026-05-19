@@ -57,6 +57,7 @@ Action plan + audit report + optional archive-based execute
 - **Configurable budget tier** — proposals biased toward hobby / startup / enterprise tier
 - **Cross-repo audit (v2.2)** — scan all your repos, detect duplication, propose shared libraries / consolidation / dependency alignment
 - **Cross-agent audit (v2.2)** — scan your AI sub-agents, detect overlap and orphans, propose consolidation and naming standardization
+- **Micronized task breakdown (v2.3)** — 2-tier task hierarchy (macro 2-8h + micro 15-45min) with acceptance criteria, dependency graph, and parallel-safety markers for every task-generating phase
 
 ## Prerequisites
 
