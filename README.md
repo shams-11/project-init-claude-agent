@@ -73,6 +73,22 @@ Handoff context → Knowledge map → Onboarding doc → Access transfer checkli
 First-week plan → Risk register → Handoff packet
 ```
 
+### MODE_INCIDENT_RESPONSE (7 phases — new in v2.5)
+
+```
+Incident capture (SEV + symptoms) → Runbook construction/fetch → Live triage (hypothesis tree) →
+Mitigation (operator-approved) → Resolution capture → Blameless postmortem →
+Action items + ADRs
+```
+
+### MODE_DEPRECATE (7 phases — new in v2.5)
+
+```
+Deprecation scope (archive/sunset/hard) → Dependents discovery → Communication plan →
+Repo state changes → Migration guide → Sunset schedule (T+0 / T+30 / T+90 / T+180) →
+Deprecation packet
+```
+
 ## Why use it?
 
 - **One command** replaces 8+ separate workflow steps
@@ -92,6 +108,10 @@ First-week plan → Risk register → Handoff packet
 - **4 new modes (v2.4)** — `MODE_PROJECT_HEALTH_CHECK` (periodic audit + scoring), `MODE_OPENSOURCE_PUBLISH` (private → public with PII strip + license + community files), `MODE_MIGRATION_PLAN` (tech stack migration with 3 strategies), `MODE_PROJECT_HANDOFF` (knowledge map + onboarding + access transfer checklist)
 - **4 cross-cutting flags (v2.4)** — `--dry-run` (preview, no mutations), `--watch` (cron/launchd/Task Scheduler entry), `--multi-session` (parallel dispatch across Claude sessions), `--notify=<webhook>` (Slack/Discord phase-complete notifications)
 - **examples/** — 5 sample walkthroughs covering NEW_PROJECT, NEW_FEATURE, CROSS_REPO_AUDIT, PROJECT_HEALTH_CHECK
+- **Context expansion (v2.5)** — Phase F2.7 systematically expands under-specified feature prompts into 8-dimension feature DAGs (primary + permissions + state + edge + privacy + a11y + cross-platform + observability) using an 18-category catalog; user marks branches MVP / v2 / skip
+- **2 new modes (v2.5)** — `MODE_INCIDENT_RESPONSE` (production incident runbook + triage + blameless postmortem) and `MODE_DEPRECATE` (project archive workflow with dependent discovery + comms plan + sunset schedule)
+- **Real-time monitoring dashboard (v2.5)** — auto-generated Obsidian dashboard from `--watch` health-check runs with Dataview tables + score history + alerts
+- **Agent telemetry (v2.5, opt-in)** — local-only self-monitoring (mode frequency, phase duration, resolver hit rate); never sent externally; surface bottlenecks via `--telemetry-report`
 
 ## Prerequisites
 

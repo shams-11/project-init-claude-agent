@@ -5,6 +5,51 @@ All notable changes to `project-init` will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 versioning follows [Semantic Versioning](https://semver.org/).
 
+## [2.5.0] — 2026-05-20
+
+### Added — Phase F2.7 Context expansion (NEW_FEATURE)
+
+Systematic feature DAG branching. When the user prompts an under-specified feature (e.g., "add photo capture"), the agent expands implicit branches across 8 dimensions:
+- PRIMARY (explicit + implicit standard expectations) — e.g., photo capture implies gallery picker, basic crop
+- ALTERNATIVE INPUTS — alternate input modalities
+- PERMISSIONS — OS-level required + denied-state UX
+- STATE / EDGE — loading/empty/error/success/retry + offline/low storage/large input/timeout
+- PRIVACY — consent, retention, EXIF strip, GDPR/KVKK
+- ACCESSIBILITY — screen reader, alt text, voice, keyboard nav, contrast
+- CROSS-PLATFORM — iOS/Android/web/desktop specifics
+- OBSERVABILITY — events + metrics
+
+Each branch presented as MVP / v2 / skip; user's marks feed into Phase F3 PRD interview.
+
+### Added — `docs/CONTEXT_EXPANSION_CATALOG.md`
+
+Reference catalog with 18 feature category templates: image/video capture, audio capture, auth, search, notifications, user profile, comments, cart/checkout, payment, map/location, file upload, form, settings, social sharing, chat/messaging, calendar, analytics/charts, onboarding. Each entry covers Primary / Permissions / State / Edge / Privacy / A11y / Cross-platform / Observability dimensions.
+
+### Added — 2 new modes
+
+- **MODE_INCIDENT_RESPONSE (I0-I6)**: Production incident workflow — incident capture (severity, affected systems), runbook construction/fetch, live triage with diagnostic walkthrough + hypothesis tree, mitigation with operator approval, resolution capture, blameless postmortem draft, action items + ADRs.
+- **MODE_DEPRECATE (D0-D6)**: Project archive workflow — deprecation scope, dependents discovery (which other repos / packages reference this one), communication plan (README banner, release notes, email templates, migration guide), repo state changes (archive on GitHub with approval), sunset schedule (T+0 / T+30d / T+90d / T+180d), task list for outreach.
+
+### Added — Cross-cutting capabilities
+
+- **Real-time monitoring dashboard** — combined with `--watch` runs of `MODE_PROJECT_HEALTH_CHECK`, generates `02_Areas/project-health/_dashboard.md` with Dataview tables, per-project score history, and recent alerts. Optional webhook integration for daily summary and per-incident alerts.
+- **Agent telemetry (opt-in)** — local-only self-monitoring (mode frequency, phase duration, sub-agent latency, resolver hit rate, error patterns). NEVER sent externally. Enable with `--telemetry`. Generate report with `/project-init --telemetry-report`. Use to identify bottlenecks in the agent's own performance.
+
+### Changed
+
+- Frontmatter description updated to reflect 10 modes
+- Mode detection table extended with incident + deprecate triggers
+- Total pipeline now covers **10 modes / 80 phases**
+
+### Why context expansion matters
+
+Without it, users discover missing branches mid-implementation:
+- 2 days in: "Oh, we need gallery picker too"
+- 1 week in: "Production: 30% of users hit permission denied — no handling"
+- Production: "Why don't screen readers work?"
+
+Each discovery is a costly re-plan. Phase F2.7 surfaces all branches upfront so users make explicit MVP/defer decisions.
+
 ## [2.4.0] — 2026-05-20
 
 ### Added — 4 new modes
